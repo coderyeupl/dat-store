@@ -5,12 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DAT STORE - Shop Acc Liên Quân</title>
+
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: Arial, sans-serif;
     background: #f2f5f9;
@@ -31,7 +33,6 @@ header {
 .logo {
     font-size: 26px;
     font-weight: bold;
-    letter-spacing: 1px;
 }
 
 .logo span {
@@ -41,31 +42,42 @@ header {
 nav {
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 nav a:hover {
     color: #55b9ff;
 }
 
-.cart-button {
+button {
+    cursor: pointer;
+}
+
+.cart-button,
+.auth-button {
     background: #238bd0;
     border: none;
     color: white;
-    padding: 11px 17px;
+    padding: 11px 15px;
     border-radius: 6px;
-    cursor: pointer;
     font-size: 14px;
 }
 
-.cart-button:hover {
+.cart-button:hover,
+.auth-button:hover {
     background: #1472b2;
+}
+
+.user-name {
+    color: #55b9ff;
+    font-size: 14px;
 }
 
 .banner {
@@ -97,11 +109,6 @@ nav a:hover {
     border: none;
     border-radius: 5px;
     font-weight: bold;
-    cursor: pointer;
-}
-
-.banner button:hover {
-    background: white;
 }
 
 .container {
@@ -141,11 +148,6 @@ nav a:hover {
 .tools input {
     flex: 1;
     min-width: 200px;
-}
-
-.tools input:focus,
-.tools select:focus {
-    border-color: #238bd0;
 }
 
 .game-list {
@@ -210,7 +212,6 @@ nav a:hover {
     padding: 10px 5px;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     font-size: 13px;
 }
 
@@ -224,16 +225,7 @@ nav a:hover {
     color: white;
 }
 
-.add-btn:hover {
-    background: #176da5;
-}
-
-.detail-btn:hover {
-    background: #d2eafa;
-}
-
 .empty {
-    display: none;
     text-align: center;
     color: #777;
     padding: 30px;
@@ -257,8 +249,6 @@ footer {
     font-size: 14px;
     line-height: 1.8;
 }
-
-/* Hộp thông tin và giỏ hàng */
 
 .modal {
     display: none;
@@ -295,10 +285,6 @@ footer {
     color: #777;
 }
 
-.close:hover {
-    color: red;
-}
-
 .cart-item {
     display: flex;
     justify-content: space-between;
@@ -330,7 +316,6 @@ footer {
     height: 25px;
     border: none;
     background: #e7f2fa;
-    cursor: pointer;
     border-radius: 4px;
 }
 
@@ -338,8 +323,7 @@ footer {
     border: none;
     color: red;
     background: none;
-    cursor: pointer;
-    font-size: 13px;
+    margin-top: 5px;
 }
 
 .total {
@@ -359,12 +343,7 @@ footer {
     border: none;
     border-radius: 5px;
     margin-top: 20px;
-    cursor: pointer;
     font-weight: bold;
-}
-
-.checkout:hover {
-    background: #176da5;
 }
 
 .detail-text {
@@ -374,6 +353,33 @@ footer {
 
 .detail-text strong {
     color: #163d63;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 13px;
+    border: 1px solid #ccd5df;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+}
+
+.auth-input:focus {
+    border-color: #238bd0;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 18px;
+    color: #666;
+    font-size: 14px;
+}
+
+.auth-switch a {
+    color: #238bd0;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 @media(max-width: 850px) {
@@ -389,14 +395,6 @@ footer {
 @media(max-width: 550px) {
     header {
         padding: 18px 5%;
-    }
-
-    nav {
-        gap: 12px;
-    }
-
-    nav a {
-        font-size: 13px;
     }
 
     .banner {
@@ -427,6 +425,12 @@ footer {
         <a href="#home">Trang chủ</a>
         <a href="#shop">Shop acc</a>
         <a href="#about">Giới thiệu</a>
+
+        <span class="user-name" id="userInfo"></span>
+
+        <button class="auth-button" id="authButton"
+                onclick="openAuth()">Đăng nhập</button>
+
         <button class="cart-button" onclick="openCart()">
             🛒 Giỏ hàng (<span id="cartCount">0</span>)
         </button>
@@ -435,20 +439,17 @@ footer {
 
 <section class="banner" id="home">
     <h1>CHÀO MỪNG ĐẾN <span>DAT STORE</span></h1>
-
     <p>
         Shop tài khoản Liên Quân Mobile.
         Khám phá những tài khoản với nhiều mức giá
         và lựa chọn tài khoản phù hợp với bạn.
     </p>
-
     <button onclick="document.getElementById('shop').scrollIntoView()">
         XEM SHOP NGAY
     </button>
 </section>
 
 <div class="container" id="shop">
-
     <h2 class="section-title">DANH SÁCH TÀI KHOẢN</h2>
 
     <p class="description">
@@ -456,12 +457,9 @@ footer {
     </p>
 
     <div class="tools">
-        <input
-            type="text"
-            id="search"
-            placeholder="Tìm theo mã tài khoản..."
-            oninput="filterProducts()"
-        >
+        <input type="text" id="search"
+               placeholder="Tìm theo mã tài khoản..."
+               oninput="filterProducts()">
 
         <select id="priceFilter" onchange="filterProducts()">
             <option value="all">Tất cả mức giá</option>
@@ -473,25 +471,20 @@ footer {
     </div>
 
     <div class="game-list" id="productList"></div>
-
 </div>
 
 <div class="container" id="about">
     <h2 class="section-title">GIỚI THIỆU DAT STORE</h2>
 
     <div class="about">
+        <p>Chào mừng bạn đến với DAT STORE!</p>
         <p>
-            Chào mừng bạn đến với DAT STORE!
-            Đây là website giới thiệu và trưng bày
-            tài khoản Liên Quân Mobile.
+            Đây là website giới thiệu và trưng bày tài khoản
+            Liên Quân Mobile.
         </p>
-
         <p>
             Website được xây dựng bằng HTML, CSS và JavaScript.
-            Hiện tại shop đang sử dụng dữ liệu tài khoản mẫu
-            để minh họa chức năng tìm kiếm, xem chi tiết và giỏ hàng.
         </p>
-
         <p>
             Liên hệ: <strong>Facebook của shop</strong>
             (thay bằng đường dẫn Facebook của bạn).
@@ -505,25 +498,27 @@ footer {
     <p>© 2026 DAT STORE. All rights reserved.</p>
 </footer>
 
-<!-- Hộp xem chi tiết -->
-<div class="modal" id="detailModal" onclick="outsideClose(event, 'detailModal')">
+<!-- HỘP CHI TIẾT -->
+<div class="modal" id="detailModal"
+     onclick="outsideClose(event, 'detailModal')">
     <div class="modal-content">
         <div class="modal-header">
             <h2>CHI TIẾT ACC</h2>
-            <span class="close" onclick="closeModal('detailModal')">&times;</span>
+            <span class="close"
+                  onclick="closeModal('detailModal')">&times;</span>
         </div>
-
         <div id="detailContent"></div>
     </div>
 </div>
 
-<!-- Hộp giỏ hàng -->
-<div class="modal" id="cartModal" onclick="outsideClose(event, 'cartModal')">
+<!-- HỘP GIỎ HÀNG -->
+<div class="modal" id="cartModal"
+     onclick="outsideClose(event, 'cartModal')">
     <div class="modal-content">
-
         <div class="modal-header">
             <h2>GIỎ HÀNG</h2>
-            <span class="close" onclick="closeModal('cartModal')">&times;</span>
+            <span class="close"
+                  onclick="closeModal('cartModal')">&times;</span>
         </div>
 
         <div id="cartItems"></div>
@@ -536,13 +531,67 @@ footer {
         <button class="checkout" onclick="checkout()">
             ĐẶT HÀNG
         </button>
+    </div>
+</div>
+
+<!-- HỘP ĐĂNG NHẬP / ĐĂNG KÝ -->
+<div class="modal" id="authModal"
+     onclick="outsideClose(event, 'authModal')">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="authTitle">ĐĂNG NHẬP</h2>
+            <span class="close"
+                  onclick="closeModal('authModal')">&times;</span>
+        </div>
+
+        <div id="loginForm">
+            <input class="auth-input" id="loginUsername"
+                   type="text" placeholder="Tên tài khoản">
+
+            <input class="auth-input" id="loginPassword"
+                   type="password" placeholder="Mật khẩu">
+
+            <button class="checkout" onclick="login()">
+                ĐĂNG NHẬP
+            </button>
+
+            <p class="auth-switch">
+                Chưa có tài khoản?
+                <a href="#" onclick="showRegister();return false">
+                    Đăng ký ngay
+                </a>
+            </p>
+        </div>
+
+        <div id="registerForm" style="display:none">
+            <input class="auth-input" id="registerUsername"
+                   type="text" placeholder="Tên tài khoản">
+
+            <input class="auth-input" id="registerPassword"
+                   type="password" placeholder="Mật khẩu (ít nhất 6 ký tự)">
+
+            <input class="auth-input" id="confirmPassword"
+                   type="password" placeholder="Nhập lại mật khẩu">
+
+            <button class="checkout" onclick="register()">
+                TẠO TÀI KHOẢN
+            </button>
+
+            <p class="auth-switch">
+                Đã có tài khoản?
+                <a href="#" onclick="showLogin();return false">
+                    Đăng nhập
+                </a>
+            </p>
+        </div>
 
     </div>
 </div>
 
 <script>
 
-// Danh sách tài khoản mẫu
+// DANH SÁCH SẢN PHẨM
 let products = [
     {
         id: 1,
@@ -600,7 +649,7 @@ let products = [
     }
 ];
 
-// Giỏ hàng
+// GIỎ HÀNG
 let cart = [];
 
 try {
@@ -610,103 +659,81 @@ try {
     cart = [];
 }
 
-// Định dạng tiền Việt Nam
 function formatMoney(number) {
     return number.toLocaleString("vi-VN") + "đ";
 }
 
-// Hiển thị sản phẩm
+// HIỂN THỊ SẢN PHẨM
 function showProducts(list = products) {
-
     let html = "";
 
     list.forEach(function(p) {
-
         html += `
         <div class="product">
-
             <div class="product-image">🎮</div>
-
             <div class="product-info">
-
                 <h3>${p.name}</h3>
-
                 <p>🏆 Rank: ${p.rank}</p>
                 <p>🎨 Trang phục: ${p.skins}</p>
                 <p>⚔️ Tướng: ${p.heroes}</p>
-
-                <div class="price">
-                    ${formatMoney(p.price)}
-                </div>
+                <div class="price">${formatMoney(p.price)}</div>
 
                 <div class="product-buttons">
-
                     <button class="detail-btn"
-                    onclick="showDetail(${p.id})">
+                            onclick="showDetail(${p.id})">
                         Chi tiết
                     </button>
 
                     <button class="add-btn"
-                    onclick="addCart(${p.id})">
+                            onclick="addCart(${p.id})">
                         Thêm giỏ
                     </button>
-
                 </div>
-
             </div>
-        </div>
-        `;
+        </div>`;
     });
 
     if(list.length === 0) {
-        html = '<div class="empty" style="display:block">Không tìm thấy tài khoản!</div>';
+        html = '<div class="empty">Không tìm thấy tài khoản!</div>';
     }
 
     document.getElementById("productList").innerHTML = html;
 }
 
-// Tìm kiếm và lọc giá
+// TÌM KIẾM VÀ LỌC GIÁ
 function filterProducts() {
-
-    let keyword = document.getElementById("search").value.toLowerCase();
+    let keyword = document.getElementById("search")
+        .value.toLowerCase();
 
     let price = document.getElementById("priceFilter").value;
 
     let result = products.filter(function(p) {
-
         let matchName = p.name.toLowerCase().includes(keyword);
-
         let matchPrice = true;
 
         if(price === "100000") {
             matchPrice = p.price < 100000;
-        }
-
-        else if(price === "200000") {
+        } else if(price === "200000") {
             matchPrice = p.price >= 100000 && p.price <= 200000;
-        }
-
-        else if(price === "500000") {
+        } else if(price === "500000") {
             matchPrice = p.price > 200000 && p.price <= 500000;
-        }
-
-        else if(price === "1000000") {
+        } else if(price === "1000000") {
             matchPrice = p.price > 500000;
         }
 
         return matchName && matchPrice;
-
     });
 
     showProducts(result);
 }
 
-// Xem chi tiết
+// XEM CHI TIẾT
 function showDetail(id) {
-
     let p = products.find(function(item) {
         return item.id === id;
     });
+
+    if(!p) return;
 
     document.getElementById("detailContent").innerHTML = `
         <div class="detail-text">
@@ -718,24 +745,22 @@ function showDetail(id) {
             <p><strong>Mô tả:</strong> ${p.description}</p>
 
             <button class="checkout"
-            onclick="addCart(${p.id}); closeModal('detailModal')">
+                    onclick="addCart(${p.id});closeModal('detailModal')">
                 THÊM VÀO GIỎ HÀNG
             </button>
-        </div>
-    `;
+        </div>`;
 
     document.getElementById("detailModal").style.display = "flex";
 }
 
-// Lưu giỏ hàng
+// LƯU GIỎ HÀNG
 function saveCart() {
     localStorage.setItem("datStoreCart", JSON.stringify(cart));
     updateCart();
 }
 
-// Thêm vào giỏ hàng
+// THÊM GIỎ HÀNG
 function addCart(id) {
-
     let item = cart.find(function(p) {
         return p.id === id;
     });
@@ -750,14 +775,11 @@ function addCart(id) {
     }
 
     saveCart();
-
     alert("Đã thêm tài khoản vào giỏ hàng!");
-
 }
 
-// Cập nhật số lượng trên nút
+// CẬP NHẬT SỐ LƯỢNG
 function updateCart() {
-
     let count = 0;
 
     cart.forEach(function(item) {
@@ -767,15 +789,14 @@ function updateCart() {
     document.getElementById("cartCount").innerText = count;
 }
 
-// Mở giỏ hàng
+// MỞ GIỎ HÀNG
 function openCart() {
     showCart();
     document.getElementById("cartModal").style.display = "flex";
 }
 
-// Hiển thị giỏ hàng
+// HIỂN THỊ GIỎ HÀNG
 function showCart() {
-
     let html = "";
     let total = 0;
 
@@ -786,41 +807,34 @@ function showCart() {
     });
 
     cart.forEach(function(item) {
-
         let p = products.find(function(x) {
             return x.id === item.id;
         });
 
         let money = p.price * item.quantity;
-
         total += money;
 
         html += `
-            <div class="cart-item">
+        <div class="cart-item">
+            <div>
+                <h4>${p.name}</h4>
+                <p>${formatMoney(p.price)}</p>
 
-                <div>
-                    <h4>${p.name}</h4>
-                    <p>${formatMoney(p.price)}</p>
-
-                    <div class="quantity">
-                        <button onclick="changeQuantity(${p.id}, -1)">-</button>
-
-                        <span>${item.quantity}</span>
-
-                        <button onclick="changeQuantity(${p.id}, 1)">+</button>
-                    </div>
+                <div class="quantity">
+                    <button onclick="changeQuantity(${p.id},-1)">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQuantity(${p.id},1)">+</button>
                 </div>
-
-                <div>
-                    <p>${formatMoney(money)}</p>
-                    <button class="remove"
-                    onclick="removeCart(${p.id})">
-                        Xóa
-                    </button>
-                </div>
-
             </div>
-        `;
+
+            <div>
+                <p>${formatMoney(money)}</p>
+                <button class="remove"
+                        onclick="removeCart(${p.id})">
+                    Xóa
+                </button>
+            </div>
+        </div>`;
     });
 
     if(cart.length === 0) {
@@ -828,17 +842,14 @@ function showCart() {
     }
 
     document.getElementById("cartItems").innerHTML = html;
-
     document.getElementById("totalPrice").innerText = formatMoney(total);
 
     localStorage.setItem("datStoreCart", JSON.stringify(cart));
-
     updateCart();
 }
 
-// Tăng giảm số lượng
+// TĂNG GIẢM SỐ LƯỢNG
 function changeQuantity(id, amount) {
-
     let item = cart.find(function(p) {
         return p.id === id;
     });
@@ -857,9 +868,8 @@ function changeQuantity(id, amount) {
     showCart();
 }
 
-// Xóa sản phẩm
+// XÓA SẢN PHẨM
 function removeCart(id) {
-
     cart = cart.filter(function(p) {
         return p.id !== id;
     });
@@ -868,9 +878,8 @@ function removeCart(id) {
     showCart();
 }
 
-// Đặt hàng demo
+// ĐẶT HÀNG DEMO
 function checkout() {
-
     if(cart.length === 0) {
         alert("Bạn chưa có tài khoản trong giỏ hàng!");
         return;
@@ -889,34 +898,210 @@ function checkout() {
     alert(
         "Đơn hàng demo đã được tạo!\n" +
         "Tổng tiền: " + formatMoney(total) +
-        "\n\nĐây chưa phải giao dịch thật. Vui lòng liên hệ shop để xác nhận đơn hàng."
+        "\nĐây chưa phải giao dịch thật."
     );
-
 }
 
-// Đóng hộp thoại
+// ĐÓNG HỘP THOẠI
 function closeModal(id) {
     document.getElementById(id).style.display = "none";
 }
 
-// Đóng khi nhấn ngoài hộp
 function outsideClose(event, id) {
     if(event.target.id === id) {
         closeModal(id);
     }
 }
 
-// Đóng bằng phím ESC
 document.addEventListener("keydown", function(event) {
     if(event.key === "Escape") {
         closeModal("cartModal");
         closeModal("detailModal");
+        closeModal("authModal");
     }
 });
 
-// Khởi chạy website
+// ================================
+// ĐĂNG KÝ - ĐĂNG NHẬP DEMO
+// ================================
+
+function getUsers() {
+    try {
+        let users = JSON.parse(
+            localStorage.getItem("datStoreUsers")
+        ) || [];
+
+        return Array.isArray(users) ? users : [];
+    } catch(error) {
+        return [];
+    }
+}
+
+// Mã hóa mật khẩu demo
+async function hashPassword(password) {
+    if(!window.crypto || !crypto.subtle) {
+        throw new Error("Trình duyệt không hỗ trợ mã hóa mật khẩu.");
+    }
+
+    let data = new TextEncoder().encode(password);
+    let hash = await crypto.subtle.digest("SHA-256", data);
+
+    return Array.from(new Uint8Array(hash))
+        .map(function(b) {
+            return b.toString(16).padStart(2, "0");
+        }).join("");
+}
+
+// MỞ ĐĂNG NHẬP
+function openAuth() {
+    let username = localStorage.getItem("datStoreLogin");
+
+    if(username) {
+        logout();
+        return;
+    }
+
+    showLogin();
+    document.getElementById("authModal").style.display = "flex";
+}
+
+// HIỂN THỊ FORM ĐĂNG NHẬP
+function showLogin() {
+    document.getElementById("loginForm").style.display = "block";
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("authTitle").innerText = "ĐĂNG NHẬP";
+}
+
+// HIỂN THỊ FORM ĐĂNG KÝ
+function showRegister() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+    document.getElementById("authTitle").innerText = "ĐĂNG KÝ";
+}
+
+// ĐĂNG KÝ
+async function register() {
+    let username = document.getElementById("registerUsername")
+        .value.trim();
+
+    let password = document.getElementById("registerPassword").value;
+    let confirm = document.getElementById("confirmPassword").value;
+
+    if(username.length < 3) {
+        alert("Tên tài khoản phải có ít nhất 3 ký tự!");
+        return;
+    }
+
+    if(password.length < 6) {
+        alert("Mật khẩu phải có ít nhất 6 ký tự!");
+        return;
+    }
+
+    if(password !== confirm) {
+        alert("Mật khẩu nhập lại không khớp!");
+        return;
+    }
+
+    let users = getUsers();
+
+    let existed = users.some(function(user) {
+        return user.username.toLowerCase() === username.toLowerCase();
+    });
+
+    if(existed) {
+        alert("Tên tài khoản đã tồn tại!");
+        return;
+    }
+
+    try {
+        let passwordHash = await hashPassword(password);
+
+        users.push({
+            username: username,
+            password: passwordHash
+        });
+
+        localStorage.setItem("datStoreUsers", JSON.stringify(users));
+
+        alert("Đăng ký thành công! Hãy đăng nhập.");
+
+        document.getElementById("loginUsername").value = username;
+        document.getElementById("loginPassword").value = "";
+
+        showLogin();
+
+    } catch(error) {
+        alert(error.message);
+    }
+}
+
+// ĐĂNG NHẬP
+async function login() {
+    let username = document.getElementById("loginUsername")
+        .value.trim();
+
+    let password = document.getElementById("loginPassword").value;
+
+    if(!username || !password) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    try {
+        let users = getUsers();
+        let passwordHash = await hashPassword(password);
+
+        let user = users.find(function(item) {
+            return item.username.toLowerCase() === username.toLowerCase()
+                && item.password === passwordHash;
+        });
+
+        if(!user) {
+            alert("Tên tài khoản hoặc mật khẩu không chính xác!");
+            return;
+        }
+
+        localStorage.setItem("datStoreLogin", user.username);
+
+        alert("Đăng nhập thành công! Xin chào " + user.username);
+
+        closeModal("authModal");
+        updateAuth();
+
+    } catch(error) {
+        alert(error.message);
+    }
+}
+
+// CẬP NHẬT MENU
+function updateAuth() {
+    let username = localStorage.getItem("datStoreLogin");
+
+    let button = document.getElementById("authButton");
+    let info = document.getElementById("userInfo");
+
+    if(username) {
+        button.innerText = "Đăng xuất";
+        info.innerText = "Xin chào, " + username;
+        info.style.display = "inline";
+    } else {
+        button.innerText = "Đăng nhập";
+        info.innerText = "";
+        info.style.display = "none";
+    }
+}
+
+// ĐĂNG XUẤT
+function logout() {
+    localStorage.removeItem("datStoreLogin");
+    updateAuth();
+    alert("Bạn đã đăng xuất!");
+}
+
+// KHỞI CHẠY WEBSITE
 showProducts();
 updateCart();
+updateAuth();
 
 </script>
 
